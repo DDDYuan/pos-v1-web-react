@@ -1,11 +1,17 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component, PureComponent } from "react";
 
-class App extends Component {
+class App extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: [],
+      cart: []
+    };
+  }
   render() {
     return (
-      <div className="App">
-       app
+      <div>
+        <h1>Item List</h1>
       </div>
     );
   }
