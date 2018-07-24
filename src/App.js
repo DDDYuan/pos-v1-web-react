@@ -148,6 +148,14 @@ class ItemList extends PureComponent {
 }
 
 class ShoppingCart extends PureComponent {
+  getTotalAmount = () => {
+    let amount = 0;
+    this.props.items.forEach(item => {
+      amount += item.price * item.amount;
+    });
+    return amount;
+  };
+
   render() {
     return (
       <div>
@@ -158,6 +166,30 @@ class ShoppingCart extends PureComponent {
           GO TO ITEM LIST
         </button>
         <h3>SHOPPING CART</h3>
+        <ul className="list-group">
+          {this.props.items.map(item => (
+            <li key={item.barcode}>
+              <div className="list-group-item d-flex justify-content-between align-items-center row">
+                <div className="col-4">{item.name}</div>
+                <div className="badge badge-info col-1">
+                  {item.price}元/{item.unit}
+                </div>
+                <div className="col-4 text-right">
+                  共 {item.amount} {item.unit}
+                </div>
+                <div className="col text-right">
+                  小计： {item.amount * item.price} 元
+                </div>
+              </div>
+            </li>
+          ))}
+          <li key="total">
+            <div className="list-group-item d-flex justify-content-between align-items-center row">
+              <div className="col">总计：</div>
+              <div className="col-2 text-right">{this.getTotalAmount()}元</div>
+            </div>
+          </li>
+        </ul>
         <button
           className="btn btn-lg btn-block btn-success"
           onClick={this.props.logCart}
