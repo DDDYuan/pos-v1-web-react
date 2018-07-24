@@ -30,26 +30,26 @@ class App extends PureComponent {
       result.push(`${item.barcode}-${item.amount}`);
     });
     console.log(result);
+    alert(result);
   };
 
   render() {
-    if (this.state.listPage) {
-      return (
-        <ItemList
-          items={this.state.items}
-          promotions={this.state.promotions}
-          changePage={this.goToCartView}
-          addToCart={this.addToCart}
-        />
-      );
-    }
     return (
-      <div>
-        <ShoppingCart
-          items={this.state.cart}
-          changePage={this.goToListView}
-          logCart={this.logCart}
-        />
+      <div className="row justify-content-center">
+        {this.state.listPage ? (
+          <ItemList
+            items={this.state.items}
+            promotions={this.state.promotions}
+            changePage={this.goToCartView}
+            addToCart={this.addToCart}
+          />
+        ) : (
+          <ShoppingCart
+            items={this.state.cart}
+            changePage={this.goToListView}
+            logCart={this.logCart}
+          />
+        )}
       </div>
     );
   }
@@ -92,18 +92,18 @@ class ItemList extends PureComponent {
 
   render() {
     return (
-      <div>
+      <div className="col-6">
         <button
           className="btn btn-lg btn-block btn-outline-info"
           onClick={this.props.changePage}
         >
           GO TO SHOPPING CART
         </button>
-        <h3 className="bg-light mb-0">ITEMS LIST</h3>
+        <h3 className="mb-0">ITEMS LIST</h3>
         <ul className="list-group">
           {this.props.items.map(item => (
             <li key={item.barcode}>
-              <div className="list-group-item d-flex justify-content-between align-items-center row">
+              <div className="list-group-item d-flex justify-content-between align-items-center">
                 <div className="col">{item.name}</div>
                 <div className="badge badge-info col-1">
                   {item.price}元/{item.unit}
@@ -129,12 +129,12 @@ class ItemList extends PureComponent {
           ))}
         </ul>
         <hr />
-        <h3 className="bg-light mb-0">PROMOTIONS LIST</h3>
+        <h3 className="mb-0">PROMOTIONS LIST</h3>
         <ul className="list-group">
           {this.props.promotions.map(item =>
             item.barcodes.map(barcode => (
               <li key={item.type + barcode}>
-                <div className="list-group-item d-flex justify-content-between align-items-center row">
+                <div className="list-group-item d-flex justify-content-between align-items-center">
                   <div className="col">{this.getItemByCode(barcode).name}</div>
                   <div className="badge badge-success col-3">{item.type}</div>
                 </div>
@@ -158,18 +158,18 @@ class ShoppingCart extends PureComponent {
 
   render() {
     return (
-      <div>
+      <div className="col-6">
         <button
           className="btn btn-lg btn-block btn-outline-info"
           onClick={this.props.changePage}
         >
           GO TO ITEM LIST
         </button>
-        <h3>SHOPPING CART</h3>
+        <h3 className="mb-0">SHOPPING CART</h3>
         <ul className="list-group">
           {this.props.items.map(item => (
             <li key={item.barcode}>
-              <div className="list-group-item d-flex justify-content-between align-items-center row">
+              <div className="list-group-item d-flex justify-content-between align-items-center">
                 <div className="col-4">{item.name}</div>
                 <div className="badge badge-info col-1">
                   {item.price}元/{item.unit}
@@ -184,7 +184,7 @@ class ShoppingCart extends PureComponent {
             </li>
           ))}
           <li key="total">
-            <div className="list-group-item d-flex justify-content-between align-items-center row">
+            <div className="list-group-item d-flex justify-content-between align-items-center">
               <div className="col">总计：</div>
               <div className="col-2 text-right">{this.getTotalAmount()}元</div>
             </div>
